@@ -14,11 +14,10 @@
 package org.openmrs.module.webservices.rest.web.v1_0.controller.openmrs1_8;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -63,7 +62,7 @@ public class ObsController1_8Test extends MainResourceControllerTest {
 		SimpleObject result = deserialize(handle(newGetRequest(getURI() + "/" + RestTestConstants1_8.OBS_UUID)));
 		Assert.assertNotNull(result);
 		Util.log("Obs fetched (default)", result);
-		Assert.assertEquals(RestTestConstants1_8.OBS_UUID, PropertyUtils.getProperty(result, "uuid"));
+		assertEquals(RestTestConstants1_8.OBS_UUID, PropertyUtils.getProperty(result, "uuid"));
 		Assert.assertNotNull(PropertyUtils.getProperty(result, "links"));
 		Assert.assertNotNull(PropertyUtils.getProperty(result, "person"));
 		Assert.assertNotNull(PropertyUtils.getProperty(result, "concept"));
@@ -79,7 +78,7 @@ public class ObsController1_8Test extends MainResourceControllerTest {
 		SimpleObject result = deserialize(handle(req));
 		Assert.assertNotNull(result);
 		Util.log("Obs fetched (default)", result);
-		Assert.assertEquals(RestTestConstants1_8.OBS_UUID, PropertyUtils.getProperty(result, "uuid"));
+		assertEquals(RestTestConstants1_8.OBS_UUID, PropertyUtils.getProperty(result, "uuid"));
 		Assert.assertNotNull(PropertyUtils.getProperty(result, "links"));
 		Assert.assertNotNull(PropertyUtils.getProperty(result, "person"));
 		Assert.assertNotNull(PropertyUtils.getProperty(result, "concept"));
@@ -97,7 +96,7 @@ public class ObsController1_8Test extends MainResourceControllerTest {
 		List<Object> results = Util.getResultsList(result);
 		Assert.assertNotNull(results);
 		Object obs = results.get(8);
-		Assert.assertEquals(9, results.size());
+		assertEquals(9, results.size());
 		Assert.assertNotNull(PropertyUtils.getProperty(obs, "links"));
 		Assert.assertNotNull(PropertyUtils.getProperty(obs, "uuid"));
 		Assert.assertNotNull(PropertyUtils.getProperty(obs, "display"));
@@ -109,7 +108,7 @@ public class ObsController1_8Test extends MainResourceControllerTest {
 		        "6519d653-393b-4118-9c83-a3715b82d4ac"));
 		SimpleObject result = deserialize(handle(req));
 		List<Object> results = Util.getResultsList(result);
-		Assert.assertEquals(2, results.size());
+		assertEquals(2, results.size());
 		List<Object> uuids = Arrays.asList(PropertyUtils.getProperty(results.get(0), "uuid"), PropertyUtils.getProperty(
 		    results.get(1), "uuid"));
 		
@@ -133,9 +132,9 @@ public class ObsController1_8Test extends MainResourceControllerTest {
 		
 		List<Obs> observationsByPersonAfterSave = Context.getObsService().getObservationsByPerson(
 		    (Context.getPatientService().getPatient(7)));
-		Assert.assertEquals(before + 1, observationsByPersonAfterSave.size());
+		assertEquals(before + 1, observationsByPersonAfterSave.size());
 		newObs = observationsByPersonAfterSave.get(0);
-		Assert.assertEquals((Double) 150.0, ((Obs) newObs).getValueNumeric());
+		assertEquals((Double) 150.0, ((Obs) newObs).getValueNumeric());
 	}
 	
 	/**
@@ -156,9 +155,9 @@ public class ObsController1_8Test extends MainResourceControllerTest {
 		
 		List<Obs> observationsByPersonAfterSave = Context.getObsService().getObservationsByPerson(
 		    (Context.getPatientService().getPatient(7)));
-		Assert.assertEquals(before + 1, observationsByPersonAfterSave.size());
+		assertEquals(before + 1, observationsByPersonAfterSave.size());
 		newObs = observationsByPersonAfterSave.get(0);
-		Assert.assertEquals("high", ((Obs) newObs).getValueText());
+		assertEquals("high", ((Obs) newObs).getValueText());
 	}
 	
 	/**
@@ -173,7 +172,7 @@ public class ObsController1_8Test extends MainResourceControllerTest {
 		handle(newDeleteRequest(getURI() + "/" + uuid, new Parameter("reason", "unit test")));
 		obs = Context.getObsService().getObs(9);
 		Assert.assertTrue(obs.isVoided());
-		Assert.assertEquals("unit test", obs.getVoidReason());
+		assertEquals("unit test", obs.getVoidReason());
 	}
 	
 	/**
@@ -239,7 +238,7 @@ public class ObsController1_8Test extends MainResourceControllerTest {
 		    new Parameter("patient", "5946f880-b197-400b-9caa-a3c661d23041"));
 		SimpleObject result = deserialize(handle(req));
 		List<Object> results = Util.getResultsList(result);
-		Assert.assertEquals(9, results.size());
+		assertEquals(9, results.size());
 	}
 	
 	@Test
@@ -258,9 +257,9 @@ public class ObsController1_8Test extends MainResourceControllerTest {
 		
 		List<Obs> observationsByPersonAfterSave = Context.getObsService().getObservationsByPerson(
 		    (Context.getPatientService().getPatient(7)));
-		Assert.assertEquals(before + 1, observationsByPersonAfterSave.size());
+		assertEquals(before + 1, observationsByPersonAfterSave.size());
 		newObs = observationsByPersonAfterSave.get(0);
-		Assert.assertEquals((Double) 90.0, ((Obs) newObs).getValueNumeric());
+		assertEquals((Double) 90.0, ((Obs) newObs).getValueNumeric());
 	}
 	
 	/**
@@ -286,9 +285,9 @@ public class ObsController1_8Test extends MainResourceControllerTest {
 		
 		Assert.assertNotNull(result);
 		Util.log("Obs fetched (default)", result);
-		Assert.assertEquals(uuid, PropertyUtils.getProperty(result, "uuid"));
-		Assert.assertEquals(ConversionUtil.convertToRepresentation(ymd.parse("2008-08-14"), Representation.DEFAULT),
-		    PropertyUtils.getProperty(result, "value"));
+		assertEquals(uuid, PropertyUtils.getProperty(result, "uuid"));
+		assertEquals(ConversionUtil.convertToRepresentation(ymd.parse("2008-08-14"), Representation.DEFAULT),
+                PropertyUtils.getProperty(result, "value"));
 	}
 	
 	/**
@@ -352,5 +351,26 @@ public class ObsController1_8Test extends MainResourceControllerTest {
 				getGroupMembers().isEmpty());
 
 	}
-	
+
+
+    @Test
+    public void shouldGetObsByPatientAndConceptSet() throws Exception {
+        executeDataSet("obsWithGroupMembers.xml");
+
+        SimpleObject result = deserialize(handle(newGetRequest(getURI(), new Parameter("s","default"),new Parameter("patient", "86526ed5-3c11-11de-a0ba-001e378eb67a"), new Parameter("concept", "3f596de5-5caa-11e3-a4c0-0800271c1b75"))));
+        Util.log("Obs fetched (default)", result);
+
+        assertEquals(2,((ArrayList)result.get("results")).size());
+    }
+
+    @Test
+    public void shouldGetObsByPatient() throws Exception {
+        executeDataSet("obsWithGroupMembers.xml");
+
+        SimpleObject result = deserialize(handle(newGetRequest(getURI(),new Parameter("patient","86526ed5-3c11-11de-a0ba-001e378eb67a"))));
+
+        assertEquals(8,((ArrayList)result.get("results")).size());
+    }
+
+
 }
